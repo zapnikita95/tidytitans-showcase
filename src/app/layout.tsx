@@ -41,7 +41,7 @@ export default function RootLayout({
       lang="ru"
       className={`${geistSans.variable} ${geistMono.variable} ${pressStart.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[var(--bg)] text-[var(--fg)]">
+      <body className="min-h-full bg-[var(--bg)] text-[var(--fg)]">
         <div className="grain" aria-hidden />
         {children}
       </body>

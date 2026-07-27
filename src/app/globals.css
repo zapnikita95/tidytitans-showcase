@@ -34,7 +34,7 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-sans), system-ui, sans-serif;
-  overflow-x: hidden;
+  /* Любой overflow-x ≠ visible на html/body ломает position:sticky в Chromium */
 }
 
 ::selection {
