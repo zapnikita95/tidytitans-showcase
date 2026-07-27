@@ -8,7 +8,7 @@ const floatingTools = [
   { src: "/assets/mop.png", alt: "Швабра", className: "left-[4%] top-[18%] w-16 md:w-24", delay: 0.2 },
   { src: "/assets/sponge.png", alt: "Губка", className: "right-[6%] top-[22%] w-14 md:w-20", delay: 0.35 },
   { src: "/assets/bucket.png", alt: "Ведро", className: "left-[8%] bottom-[18%] w-16 md:w-22", delay: 0.45 },
-  { src: "/assets/duster.png", alt: "Выбивалка", className: "right-[8%] bottom-[20%] w-14 md:w-20", delay: 0.55 },
+  { src: "/assets/duster.png", alt: "Щётка", className: "right-[8%] bottom-[20%] w-14 md:w-20", delay: 0.55 },
 ];
 
 export function Hero() {

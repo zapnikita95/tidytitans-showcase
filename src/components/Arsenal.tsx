@@ -27,9 +27,9 @@ const items = [
   },
   {
     src: "/assets/duster.png",
-    name: "Выбивалка",
-    role: "Range DPS",
-    blurb: "Дальний бой с полками и углами. Пыль разлетается пикселями.",
+    name: "Щётка",
+    role: "Floor scrub",
+    blurb: "Жёсткий скраб по полу и углам. Деревянный loot для финальной зачистки локации.",
     accent: "var(--accent-soft)",
   },
 ];
