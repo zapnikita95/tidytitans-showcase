@@ -98,21 +98,17 @@ export default function CleaningTrashAdvanced() {
     offset: ["start end", "end start"],
   });
 
-  // Инструменты
+  // Инструменты (как в твоём финальном куске)
   const mopX = useTransform(scrollYProgress, [0.15, 0.7], reduceMotion ? [0, 0] : [-90, 160]);
   const mopRotate = useTransform(scrollYProgress, [0.15, 0.7], reduceMotion ? [0, 0] : [-18, 28]);
-  const mopY = useTransform(scrollYProgress, [0.15, 0.7], reduceMotion ? [0, 0] : [20, -40]);
 
   const spongeX = useTransform(scrollYProgress, [0.22, 0.75], reduceMotion ? [0, 0] : [100, -90]);
   const spongeY = useTransform(scrollYProgress, [0.22, 0.75], reduceMotion ? [0, 0] : [40, -50]);
-  const spongeRotate = useTransform(scrollYProgress, [0.22, 0.75], reduceMotion ? [0, 0] : [12, -20]);
 
   const beaterRotate = useTransform(scrollYProgress, [0.3, 0.8], reduceMotion ? [0, 0] : [5, -50]);
   const beaterY = useTransform(scrollYProgress, [0.3, 0.8], reduceMotion ? [0, 0] : [30, -70]);
-  const beaterX = useTransform(scrollYProgress, [0.3, 0.8], reduceMotion ? [0, 0] : [40, -30]);
 
   const bucketY = useTransform(scrollYProgress, [0.1, 0.85], reduceMotion ? [0, 0] : [25, -30]);
-  const bucketScale = useTransform(scrollYProgress, [0.1, 0.5, 0.85], [0.95, 1.05, 1]);
 
   // общий слой мусора (sheet) гаснет медленнее
   const sheetOpacity = useTransform(
@@ -128,8 +124,6 @@ export default function CleaningTrashAdvanced() {
     [0.5, 0.85],
     reduceMotion ? [0.15, 0.15] : [0, 0.55]
   );
-
-  const labelOpacity = useTransform(scrollYProgress, [0.55, 0.78], [0, 1]);
 
   return (
     <section
@@ -185,46 +179,40 @@ export default function CleaningTrashAdvanced() {
         <motion.img
           src="/items/mop.png"
           alt="Швабра"
-          style={{ x: mopX, y: mopY, rotate: mopRotate }}
-          className="pointer-events-none absolute left-[8%] top-[38%] w-28 pixel-art drop-shadow-[0_0_20px_rgba(62,224,184,0.25)] md:left-[14%] md:w-40"
+          style={{ x: mopX, rotate: mopRotate }}
+          className="absolute left-[6%] z-10 w-28 pixel-art drop-shadow-[0_0_20px_rgba(62,224,184,0.25)] md:w-36"
           draggable={false}
         />
 
         <motion.img
           src="/items/sponge.png"
           alt="Губка"
-          style={{ x: spongeX, y: spongeY, rotate: spongeRotate }}
-          className="pointer-events-none absolute right-[10%] top-[42%] w-20 pixel-art drop-shadow-[0_0_18px_rgba(255,138,76,0.3)] md:right-[16%] md:w-28"
+          style={{ x: spongeX, y: spongeY }}
+          className="absolute right-[10%] top-[30%] z-10 w-20 pixel-art drop-shadow-[0_0_18px_rgba(255,138,76,0.3)] md:w-24"
           draggable={false}
         />
 
         <motion.img
           src="/items/beater.png"
           alt="Выбивалка"
-          style={{ x: beaterX, y: beaterY, rotate: beaterRotate }}
-          className="pointer-events-none absolute right-[18%] top-[18%] w-24 pixel-art drop-shadow-[0_0_16px_rgba(126,240,208,0.25)] md:right-[28%] md:w-32"
+          style={{ rotate: beaterRotate, y: beaterY }}
+          className="absolute bottom-[18%] right-[18%] z-10 w-28 origin-bottom pixel-art drop-shadow-[0_0_16px_rgba(126,240,208,0.25)] md:w-32"
           draggable={false}
         />
 
         <motion.img
           src="/items/bucket.png"
           alt="Ведро"
-          style={{ y: bucketY, scale: bucketScale }}
-          className="pointer-events-none absolute bottom-[14%] left-1/2 w-24 -translate-x-1/2 pixel-art drop-shadow-[0_0_22px_rgba(126,184,255,0.3)] md:bottom-[16%] md:w-32"
+          style={{ y: bucketY }}
+          className="absolute bottom-[15%] left-[20%] z-10 w-24 pixel-art drop-shadow-[0_0_22px_rgba(126,184,255,0.3)] md:w-28"
           draggable={false}
         />
 
-        {/* caption */}
-        <div className="absolute bottom-10 left-0 right-0 z-10 px-6 text-center">
-          <p className="pixel-text text-[10px] text-[var(--clean)] md:text-[11px]">
-            QUEST · CLEAN SWEEP
+        {/* Подсказка */}
+        <div className="absolute bottom-12 z-20 text-center">
+          <p className="font-mono text-sm tracking-wide text-zinc-500">
+            Скролль, чтобы убрать мусор
           </p>
-          <motion.p
-            style={{ opacity: labelOpacity }}
-            className="mt-2 text-sm text-zinc-400 md:text-base"
-          >
-            Скролль — инструменты зачищают мусор
-          </motion.p>
         </div>
       </div>
     </section>
