@@ -1,232 +1,141 @@
 "use client";
 
-import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
-const floatingTools = [
-  { src: "/assets/mop.png", alt: "Швабра", className: "left-[4%] top-[18%] w-16 md:w-24", delay: 0.2 },
-  { src: "/assets/sponge.png", alt: "Губка", className: "right-[6%] top-[22%] w-14 md:w-20", delay: 0.35 },
-  { src: "/assets/bucket.png", alt: "Ведро", className: "left-[8%] bottom-[18%] w-16 md:w-22", delay: 0.45 },
-  { src: "/assets/duster.png", alt: "Щётка", className: "right-[8%] bottom-[20%] w-14 md:w-20", delay: 0.55 },
-];
-
+/**
+ * Композиция 1:1 с reznikov hero:
+ * — пустота, glow, grid
+ * — огромный title слева
+ * — ОДИН якорь-объект справа (швабра как «меч»)
+ * — watermark, mono sub, accent CTA
+ */
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
-  const yHero = useTransform(scrollYProgress, [0, 1], [0, 120]);
-  const yTools = useTransform(scrollYProgress, [0, 1], [0, 80]);
-  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0.2]);
+  const mopY = useTransform(scrollYProgress, [0, 1], [0, 160]);
+  const mopRotate = useTransform(scrollYProgress, [0, 1], [-18, 10]);
+  const mopScale = useTransform(scrollYProgress, [0, 1], [1, 0.88]);
+  const mopOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.15]);
 
   return (
     <section
       id="top"
       ref={ref}
-      className="relative min-h-[100svh] overflow-hidden hero-stage pt-24 pb-16"
+      className="relative flex min-h-[100svh] flex-col justify-between overflow-hidden pb-[clamp(1.4rem,4vh,2.6rem)] pt-[clamp(6rem,12vh,9rem)]"
     >
-      {/* soft grid */}
+      {/* sun / ember glow — как hero__sun, но teal */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.07]"
+        className="pointer-events-none absolute left-1/2 top-[48%] aspect-square w-[min(72vw,860px)] -translate-x-1/2 -translate-y-1/2 rounded-full"
         style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-          maskImage: "radial-gradient(ellipse at center, black 30%, transparent 75%)",
+          background:
+            "radial-gradient(circle, rgba(62,224,184,0.12), rgba(26,158,130,0.05) 48%, transparent 66%)",
+        }}
+      />
+      <div
+        className="pointer-events-none absolute left-1/2 top-[58%] h-[min(78vw,900px)] w-[min(78vw,900px)] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[20px]"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(62,224,184,0.16), rgba(255,138,76,0.06) 40%, transparent 66%)",
         }}
       />
 
-      {/* floating dirt particles */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {Array.from({ length: 14 }).map((_, i) => (
-          <motion.span
-            key={i}
-            className="absolute rounded-sm bg-[var(--dirt)]/50"
-            style={{
-              width: 4 + (i % 3) * 2,
-              height: 4 + (i % 2) * 2,
-              left: `${8 + ((i * 7) % 84)}%`,
-              top: `${12 + ((i * 11) % 70)}%`,
-            }}
-            animate={{
-              y: [0, -18 - (i % 5) * 4, 0],
-              x: [0, (i % 2 === 0 ? 8 : -8), 0],
-              opacity: [0.25, 0.7, 0.25],
-            }}
-            transition={{
-              duration: 4 + (i % 4),
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 0.2,
-            }}
-          />
-        ))}
-      </div>
+      {/* grid */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-50"
+        style={{
+          background: `
+            linear-gradient(var(--line-soft) 1px, transparent 1px) 0 0 / 100% clamp(90px,12vh,140px),
+            radial-gradient(120% 80% at 50% 120%, rgba(62,224,184,0.08), transparent 60%)
+          `,
+          maskImage:
+            "linear-gradient(transparent, #000 20%, #000 70%, transparent)",
+        }}
+      />
 
-      <div className="section-pad relative z-10 mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
-        <div className="relative z-10">
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="pixel-text mb-5 text-[10px] leading-relaxed text-[var(--clean)] md:text-[11px]"
-          >
-            TIDY TITANS · FAMILY QUEST
-          </motion.p>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-            className="text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl lg:text-[4.25rem] lg:leading-[1.05]"
-          >
-            Уборка —{" "}
-            <span className="text-[var(--clean)] text-glow">это квест.</span>
-            <br />
-            <span className="text-[var(--fg-muted)] font-normal">
-              Хаос — босс уровня.
-            </span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.18 }}
-            className="mt-6 max-w-xl text-base leading-relaxed text-[var(--fg-muted)] md:text-lg"
-          >
-            Tidy Titans превращает семейную уборку в пиксельное приключение:
-            комнаты — локации, грязь — мобы, чистота — победа. Вместе, весело,
-            без криков и списка «кто не вымыл».
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.28 }}
-            className="mt-9 flex flex-wrap items-center gap-3"
-          >
-            <a
-              href="#cta"
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--clean)] px-6 py-3.5 text-sm font-semibold text-[#06241c] transition hover:brightness-110 hover:shadow-[0_0_32px_var(--clean-glow)]"
+      <div className="pad relative z-10 mx-auto w-full max-w-[var(--maxw)]">
+        <div className="grid items-end gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-6">
+          <div className="max-w-[min(92vw,620px)]">
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="mono text-[var(--ink-2)]"
             >
-              Начать квест
-              <span aria-hidden>→</span>
-            </a>
-            <a
-              href="#how"
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3.5 text-sm font-medium text-[var(--fg)] transition hover:border-[var(--clean)]/40 hover:bg-white/10"
+              00 · семейный квест-уборка
+            </motion.p>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 28 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.85, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-4 text-[clamp(2.6rem,6.2vw,5.4rem)] font-semibold leading-[1.06] tracking-[-0.04em] text-[var(--ink)]"
             >
-              Как это работает
-            </a>
-          </motion.div>
+              <span className="block">Уборка —</span>
+              <span className="block text-[var(--accent)]">оружие.</span>
+            </motion.h1>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            className="mt-10 flex flex-wrap gap-6 text-xs text-[var(--fg-muted)]"
-          >
-            {[
-              ["01", "Квесты по комнатам"],
-              ["02", "Семейный кооп"],
-              ["03", "Пиксельный вайб"],
-            ].map(([n, t]) => (
-              <div key={n} className="flex items-center gap-2">
-                <span className="pixel-text text-[9px] text-[var(--clean)]">{n}</span>
-                <span>{t}</span>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-
-        {/* Hero visual */}
-        <motion.div style={{ y: yHero, opacity }} className="relative mx-auto w-full max-w-md lg:max-w-none">
-          <div className="relative aspect-square">
-            {/* glow ring */}
-            <motion.div
-              className="absolute inset-[12%] rounded-full bg-[var(--clean)]/10 blur-3xl"
-              animate={{ scale: [1, 1.08, 1], opacity: [0.5, 0.85, 0.5] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            />
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.14 }}
+              className="mono mt-[1.1rem] max-w-[42ch] leading-relaxed text-[var(--ink-2)]"
+            >
+              Строим систему чистоты для семьи. Не список дел, а квест,
+              который каждый день возвращает уют в дом.
+            </motion.p>
 
             <motion.div
-              className="absolute inset-0 flex items-center justify-center"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.22 }}
+              className="mt-[2.2rem]"
             >
-              <div className="relative h-[78%] w-[78%]">
-                <Image
-                  src="/assets/titan.png"
-                  alt="Титан-уборщик Tidy Titans"
-                  fill
-                  priority
-                  className="pixel-art object-contain drop-shadow-[0_20px_60px_rgba(62,224,184,0.25)]"
-                  sizes="(max-width: 768px) 80vw, 420px"
-                />
-              </div>
-            </motion.div>
-
-            {/* floating tools around titan */}
-            <motion.div style={{ y: yTools }} className="absolute inset-0">
-              {floatingTools.map((tool) => (
-                <motion.div
-                  key={tool.src}
-                  className={`absolute ${tool.className}`}
-                  initial={{ opacity: 0, scale: 0.6 }}
-                  animate={{
-                    opacity: 1,
-                    scale: 1,
-                    y: [0, -8, 0],
-                    rotate: [0, tool.delay > 0.4 ? 6 : -5, 0],
-                  }}
-                  transition={{
-                    opacity: { delay: tool.delay, duration: 0.6 },
-                    scale: { delay: tool.delay, duration: 0.6 },
-                    y: {
-                      delay: tool.delay + 0.5,
-                      duration: 3.2 + tool.delay,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    },
-                    rotate: {
-                      delay: tool.delay + 0.5,
-                      duration: 4 + tool.delay,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    },
-                  }}
-                  whileHover={{ scale: 1.12, rotate: 8 }}
-                >
-                  <div className="relative aspect-square w-full">
-                    <Image
-                      src={tool.src}
-                      alt={tool.alt}
-                      fill
-                      className="pixel-art object-contain drop-shadow-lg"
-                      sizes="96px"
-                    />
-                  </div>
-                </motion.div>
-              ))}
+              <a href="#sweep" className="btn-accent">
+                Начать квест <span aria-hidden>→</span>
+              </a>
             </motion.div>
           </div>
 
-          <p className="mt-2 text-center text-xs text-[var(--fg-muted)]">
-            Главный титан + арсенал чистоты
-          </p>
-        </motion.div>
+          {/* THE weapon — one object, reznikov sword energy */}
+          <div className="relative flex min-h-[42vh] items-center justify-center lg:min-h-[58vh]">
+            <motion.div
+              style={{ y: mopY, rotate: mopRotate, scale: mopScale, opacity: mopOpacity }}
+              className="relative will-change-transform"
+            >
+              <div className="pointer-events-none absolute left-1/2 top-1/2 h-[55%] w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--accent)]/15 blur-3xl" />
+              <motion.img
+                src="/items/mop.png"
+                alt="Швабра — оружие чистоты"
+                initial={{ opacity: 0, scale: 0.9, rotate: -28 }}
+                animate={{ opacity: 1, scale: 1, rotate: -18 }}
+                transition={{ duration: 1.1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                className="pixel-art relative z-10 h-auto w-[min(78vw,420px)] select-none drop-shadow-[0_30px_80px_rgba(62,224,184,0.25)]"
+                draggable={false}
+              />
+            </motion.div>
+          </div>
+        </div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.1 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center text-[11px] text-[var(--fg-muted)]"
+      <div className="pad relative z-10 mx-auto flex w-full max-w-[var(--maxw)] flex-wrap items-end justify-between gap-4">
+        <p className="mono text-[0.65rem] text-[var(--ink-3)]">
+          tidytitans.ru · clean system
+        </p>
+        <p className="mono text-[0.65rem] text-[var(--ink-3)]">↓ листай</p>
+      </div>
+
+      {/* watermark like Медиа© */}
+      <div
+        className="pointer-events-none absolute bottom-[0.02em] left-1/2 -translate-x-1/2 select-none whitespace-nowrap text-[clamp(6rem,17vw,16rem)] font-semibold leading-none tracking-[-0.05em] text-[rgba(243,239,230,0.07)]"
+        aria-hidden
       >
-        <span className="animate-pulse">↓ листай дальше</span>
-      </motion.div>
+        Titans
+        <sup className="align-super text-[0.16em]">©</sup>
+      </div>
     </section>
   );
 }

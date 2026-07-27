@@ -2,52 +2,36 @@
 
 import { motion } from "framer-motion";
 
-const links = [
-  { href: "#problem", label: "Хаос" },
-  { href: "#how", label: "Как работает" },
-  { href: "#arsenal", label: "Арсенал" },
-  { href: "#clean-quest", label: "Зачистка" },
-  { href: "#quest", label: "Квест" },
-];
-
 export function Header() {
   return (
     <motion.header
-      initial={{ opacity: 0, y: -12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed top-0 inset-x-0 z-40 border-b border-white/5 bg-[var(--bg)]/70 backdrop-blur-xl"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed top-0 inset-x-0 z-40"
     >
-      <div className="section-pad mx-auto flex h-16 max-w-6xl items-center justify-between">
-        <a href="#top" className="flex items-center gap-2.5 group">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--clean)]/15 ring-1 ring-[var(--clean)]/30 text-sm">
-            🧹
-          </span>
-          <span className="text-sm font-semibold tracking-tight">
-            Tidy{" "}
-            <span className="text-[var(--clean)] group-hover:text-glow transition">
-              Titans
-            </span>
-          </span>
+      <div className="pad mx-auto flex h-[4.25rem] max-w-[var(--maxw)] items-center justify-between">
+        <a href="#top" className="text-[0.95rem] font-semibold tracking-tight text-[var(--ink)]">
+          Tidy <span className="text-[var(--accent)]">Titans</span>
         </a>
-
-        <nav className="hidden md:flex items-center gap-8 text-sm text-[var(--fg-muted)]">
-          {links.map((l) => (
+        <nav className="hidden items-center gap-8 md:flex">
+          {[
+            ["#chaos", "Хаос"],
+            ["#system", "Система"],
+            ["#sweep", "Зачистка"],
+            ["#cta", "Старт"],
+          ].map(([href, label]) => (
             <a
-              key={l.href}
-              href={l.href}
-              className="hover:text-[var(--fg)] transition-colors"
+              key={href}
+              href={href}
+              className="mono text-[0.65rem] text-[var(--ink-2)] transition hover:text-[var(--ink)]"
             >
-              {l.label}
+              {label}
             </a>
           ))}
         </nav>
-
-        <a
-          href="#cta"
-          className="rounded-full bg-[var(--clean)] px-4 py-2 text-xs font-semibold text-[#06241c] transition hover:brightness-110 hover:shadow-[0_0_24px_var(--clean-glow)]"
-        >
-          Начать квест
+        <a href="#cta" className="mono text-[0.65rem] text-[var(--accent)]">
+          Начать →
         </a>
       </div>
     </motion.header>

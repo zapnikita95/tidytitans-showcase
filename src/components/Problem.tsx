@@ -4,65 +4,56 @@ import { FadeIn, Stagger, StaggerItem } from "./Motion";
 
 const pains = [
   {
-    code: "01",
+    n: "01",
     icon: "✕",
-    title: "Список дел, который никто не читает",
-    text: "Записки на холодильнике, чаты в мессенджере, устные «убери комнату» — и тишина. Без игровой петли мотивация сдувается за день.",
+    title: "Список, который никто не читает",
+    text: "Записки, чаты, «убери комнату» — и тишина. Без игровой петли мотивация сдувается за день.",
   },
   {
-    code: "02",
+    n: "02",
     icon: "◌",
     title: "Уборка = наказание",
-    text: "Дети воспринимают чистоту как скуку. Родители — как вечный конфликт. В итоге дом грязный, а настроение ещё хуже.",
+    text: "Дети видят скуку. Родители — конфликт. Дом грязный, настроение хуже.",
   },
   {
-    code: "03",
+    n: "03",
     icon: "⌀",
     title: "Нет видимого прогресса",
-    text: "Пыль вернулась, игрушки снова на полу. Без уровней, очков и «комнаты пройдены» ощущение, что топчетесь на месте.",
+    text: "Пыль вернулась. Без уровней и «комната пройдена» кажется, что топчетесь на месте.",
   },
   {
-    code: "04",
+    n: "04",
     icon: "↯",
     title: "Каждый сам по себе",
-    text: "Нет общей цели и командной победы. Tidy Titans делает уборку коопом: семья — пати, грязь — рейд.",
+    text: "Нет общей цели. Tidy Titans делает уборку коопом: семья — пати, грязь — рейд.",
   },
 ];
 
 export function Problem() {
   return (
-    <section id="problem" className="relative section-pad py-24 md:py-32">
-      <div className="mx-auto max-w-6xl">
+    <section className="pad border-y border-[var(--line)] py-[clamp(5rem,12vh,9rem)]">
+      <div className="mx-auto max-w-[var(--maxw)]">
         <FadeIn>
-          <p className="pixel-text text-[10px] text-[var(--dirt)]">CHAOS · BOSS FIGHT</p>
-          <h2 className="mt-4 max-w-2xl text-3xl font-semibold tracking-tight md:text-5xl">
-            Хаос не строит уют.
-            <br />
-            <span className="text-[var(--fg-muted)]">Система — строит.</span>
+          <p className="mono text-[var(--ember)]">проблема</p>
+          <h2 className="mt-4 max-w-[18ch] text-[clamp(1.8rem,4vw,3.2rem)] font-semibold tracking-[-0.03em]">
+            Почему дом снова в хаосе
           </h2>
-          <p className="mt-5 max-w-2xl text-[var(--fg-muted)] leading-relaxed">
-            Большинство «приложений для дел» просто пишут задачи. Мы делаем иначе:
-            сначала превращаем дом в карту квеста, грязь — в противников, а семью —
-            в отряд титанов чистоты.
-          </p>
         </FadeIn>
 
-        <Stagger className="mt-14 grid gap-4 sm:grid-cols-2">
+        <Stagger className="mt-14 grid gap-px overflow-hidden rounded-sm border border-[var(--line)] bg-[var(--line)] sm:grid-cols-2">
           {pains.map((p) => (
-            <StaggerItem key={p.code}>
-              <article className="card-surface group h-full rounded-2xl p-6 transition duration-300 md:p-7">
-                <div className="flex items-start justify-between gap-4">
-                  <span className="pixel-text text-[10px] text-[var(--dirt)]/80">
-                    {p.code}
-                  </span>
-                  <span className="text-lg text-[var(--fg-muted)] transition group-hover:text-[var(--dirt)]">
+            <StaggerItem key={p.n}>
+              <article className="group h-full bg-[var(--bg)] p-7 transition hover:bg-[var(--bg-2)] md:p-9">
+                <div className="flex items-start justify-between">
+                  <span className="mono text-[var(--ink-3)]">{p.n}</span>
+                  <span className="text-[var(--ink-3)] transition group-hover:text-[var(--ember)]">
                     {p.icon}
                   </span>
                 </div>
-                <h3 className="mt-4 text-lg font-semibold tracking-tight md:text-xl">
+                <h3 className="mt-6 text-[1.25rem] font-semibold tracking-tight md:text-[1.4rem]">
                   {p.title}
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed text-[var(--fg-muted)]">
+                <p className="mt-3 text-[0.95rem] leading-relaxed text-[var(--ink-2)]">
                   {p.text}
                 </p>
               </article>
