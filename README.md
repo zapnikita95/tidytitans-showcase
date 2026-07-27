@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tidy Titans — сайт-витрина
 
-## Getting Started
+Тёмный атмосферный лендинг для **tidytitans.ru**: премиум-ваibe как у [reznikov.vercel.app](https://reznikov.vercel.app), но в игровом пиксельном стиле семейного квеста-уборки.
 
-First, run the development server:
+## Стек
+
+- Next.js (App Router) + TypeScript
+- Tailwind CSS v4
+- Framer Motion
+- Пиксельные ассеты (титан + швабра, губка, ведро, выбивалка)
+
+## Запуск
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Открой [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Структура
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `src/components/Hero.tsx` — главный якорь: титан + floating tools
+- `Problem` / `HowItWorks` / `Arsenal` / `QuestMap` / `FinalCTA`
+- `public/assets/` — PNG с прозрачным фоном
 
-## Learn More
+## Сборка
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run build
+npm start
+```
