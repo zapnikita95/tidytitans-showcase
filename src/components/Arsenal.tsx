@@ -3,7 +3,7 @@
 import { FadeIn, Stagger, StaggerItem, motion } from "./Motion";
 
 const items = [
-  { src: "/items/mop.png", name: "Швабра", role: "main" },
+  { src: "/items/mop.jpg", name: "Швабра", role: "main" },
   { src: "/items/sponge.png", name: "Губка", role: "burst" },
   { src: "/items/bucket.png", name: "Ведро", role: "pool" },
   { src: "/items/beater.png", name: "Щётка", role: "scrub" },

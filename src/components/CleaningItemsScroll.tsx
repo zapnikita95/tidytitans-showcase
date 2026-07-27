@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
 const items = [
-  { src: "/items/mop.png", alt: "Швабра", delay: 0, from: 100, to: -80 },
+  { src: "/items/mop.jpg", alt: "Швабра", delay: 0, from: 100, to: -80 },
   { src: "/items/sponge.png", alt: "Губка", delay: 0.08, from: 60, to: -120 },
   { src: "/items/bucket.png", alt: "Ведро", delay: 0.16, from: 120, to: -50 },
   { src: "/items/beater.png", alt: "Выбивалка", delay: 0.24, from: 80, to: -100 },

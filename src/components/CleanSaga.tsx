@@ -213,9 +213,9 @@ export default function CleanSaga() {
         >
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-24 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--accent)]/20 blur-2xl" />
           <img
-            src="/items/mop.png"
+            src="/items/mop-blade.jpg"
             alt="Швабра"
-            className="pixel-art relative w-full rotate-[-90deg] scale-110 select-none drop-shadow-[0_20px_60px_rgba(62,224,184,0.35)]"
+            className="relative w-full scale-110 select-none drop-shadow-[0_20px_60px_rgba(62,224,184,0.35)]"
             draggable={false}
           />
         </motion.div>

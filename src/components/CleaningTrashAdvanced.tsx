@@ -390,7 +390,7 @@ export default function CleaningTrashAdvanced() {
                 style={{ opacity: wipeOpacity }}
               />
               <img
-                src="/items/mop.png"
+                src="/items/mop.jpg"
                 alt="Швабра"
                 className="w-full pixel-art drop-shadow-[0_0_28px_rgba(62,224,184,0.45)]"
                 draggable={false}

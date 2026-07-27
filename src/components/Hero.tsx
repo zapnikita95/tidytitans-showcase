@@ -108,12 +108,12 @@ export function Hero() {
             >
               <div className="pointer-events-none absolute left-1/2 top-1/2 h-[55%] w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--accent)]/15 blur-3xl" />
               <motion.img
-                src="/items/mop.png"
+                src="/items/mop.jpg"
                 alt="Швабра — оружие чистоты"
                 initial={{ opacity: 0, scale: 0.9, rotate: -28 }}
                 animate={{ opacity: 1, scale: 1, rotate: -18 }}
                 transition={{ duration: 1.1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                className="pixel-art relative z-10 h-auto w-[min(78vw,420px)] select-none drop-shadow-[0_30px_80px_rgba(62,224,184,0.25)]"
+                className="relative z-10 h-auto w-[min(78vw,420px)] select-none drop-shadow-[0_30px_80px_rgba(62,224,184,0.25)]"
                 draggable={false}
               />
             </motion.div>
