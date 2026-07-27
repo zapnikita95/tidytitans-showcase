@@ -6,6 +6,7 @@ const links = [
   { href: "#problem", label: "Хаос" },
   { href: "#how", label: "Как работает" },
   { href: "#arsenal", label: "Арсенал" },
+  { href: "#clean-quest", label: "Зачистка" },
   { href: "#quest", label: "Квест" },
 ];
 

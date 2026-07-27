@@ -1,196 +1,16 @@
 "use client";
 
-import Image from "next/image";
-import { motion, useScroll, useTransform, useReducedMotion, type MotionValue } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
 
 const items = [
-  {
-    src: "/assets/mop.png",
-    name: "Швабра",
-    role: "Main weapon",
-    blurb: "Рубит лужи и крошки. Главный стат — зона чистоты.",
-    accent: "#3ee0b8",
-    // parallax bias: negative = moves up slightly faster
-    parallax: -40,
-    rotateFrom: -12,
-    floatY: 10,
-    floatRot: 4,
-    floatDur: 3.4,
-  },
-  {
-    src: "/assets/sponge.png",
-    name: "Губка",
-    role: "Burst clean",
-    blurb: "AOE по пятнам. Пузыри = крит-эффект.",
-    accent: "#ff8a4c",
-    parallax: -18,
-    rotateFrom: 10,
-    floatY: 8,
-    floatRot: -5,
-    floatDur: 2.9,
-  },
-  {
-    src: "/assets/bucket.png",
-    name: "Ведро",
-    role: "Mana pool",
-    blurb: "Ресурс отряда. Заряды для комбо-уборки.",
-    accent: "#7eb8ff",
-    parallax: -28,
-    rotateFrom: -8,
-    floatY: 12,
-    floatRot: 3,
-    floatDur: 3.8,
-  },
-  {
-    src: "/assets/duster.png",
-    name: "Щётка",
-    role: "Floor scrub",
-    blurb: "Жёсткий скраб. Финальная зачистка локации.",
-    accent: "#7ef0d0",
-    parallax: -12,
-    rotateFrom: 14,
-    floatY: 9,
-    floatRot: -4,
-    floatDur: 3.2,
-  },
-] as const;
+  { src: "/items/mop.png", alt: "Швабра", delay: 0 },
+  { src: "/items/sponge.png", alt: "Губка", delay: 0.1 },
+  { src: "/items/bucket.png", alt: "Ведро", delay: 0.2 },
+  { src: "/items/beater.png", alt: "Выбивалка", delay: 0.3 },
+];
 
-type Item = (typeof items)[number];
-
-function ScrollItem({
-  item,
-  index,
-  progress,
-  reduceMotion,
-}: {
-  item: Item;
-  index: number;
-  progress: MotionValue<number>;
-  reduceMotion: boolean | null;
-}) {
-  // staggered reveal windows along scroll progress
-  const start = 0.05 + index * 0.08;
-  const mid = start + 0.18;
-  const end = 0.92;
-
-  const y = useTransform(
-    progress,
-    [0, start, mid, end, 1],
-    reduceMotion ? [0, 0, 0, 0, 0] : [72 + index * 12, 72 + index * 12, 0, item.parallax * 0.35, item.parallax]
-  );
-
-  const opacity = useTransform(
-    progress,
-    [0, start, mid, 0.95, 1],
-    reduceMotion ? [1, 1, 1, 1, 1] : [0, 0, 1, 1, 0.85]
-  );
-
-  const scale = useTransform(
-    progress,
-    [0, start, mid, 1],
-    reduceMotion ? [1, 1, 1, 1] : [0.86, 0.86, 1, 1]
-  );
-
-  const rotate = useTransform(
-    progress,
-    [0, start, mid, 1],
-    reduceMotion ? [0, 0, 0, 0] : [item.rotateFrom, item.rotateFrom, 0, 0]
-  );
-
-  const blur = useTransform(
-    progress,
-    [0, start, mid],
-    reduceMotion ? ["blur(0px)", "blur(0px)", "blur(0px)"] : ["blur(8px)", "blur(8px)", "blur(0px)"]
-  );
-
-  return (
-    <motion.li
-      style={{ y, opacity, scale, rotate, filter: blur }}
-      className="list-none"
-    >
-      <motion.article
-        whileHover={
-          reduceMotion
-            ? undefined
-            : { y: -8, transition: { type: "spring", stiffness: 360, damping: 22 } }
-        }
-        className="group relative h-full overflow-hidden rounded-2xl border border-white/[0.07] bg-gradient-to-b from-white/[0.06] to-white/[0.02] p-4 backdrop-blur-sm transition-colors hover:border-[var(--clean)]/30 hover:from-[var(--clean)]/[0.08] hover:to-white/[0.02] md:p-5"
-      >
-        <div
-          className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full opacity-25 blur-2xl transition-opacity duration-300 group-hover:opacity-55"
-          style={{ background: item.accent }}
-        />
-
-        <span
-          className="pixel-text absolute left-3 top-3 text-[9px] opacity-70"
-          style={{ color: item.accent }}
-        >
-          0{index + 1}
-        </span>
-
-        <div className="relative mx-auto mt-4 flex h-28 w-28 items-center justify-center md:h-36 md:w-36">
-          <motion.div
-            className="relative h-full w-full"
-            animate={
-              reduceMotion
-                ? undefined
-                : {
-                    y: [0, -item.floatY, 0],
-                    rotate: [0, item.floatRot, 0],
-                  }
-            }
-            transition={
-              reduceMotion
-                ? undefined
-                : {
-                    duration: item.floatDur,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: index * 0.15,
-                  }
-            }
-          >
-            <Image
-              src={item.src}
-              alt={item.name}
-              fill
-              className="pixel-art object-contain drop-shadow-[0_12px_28px_rgba(0,0,0,0.45)] transition duration-300 group-hover:scale-105"
-              sizes="(max-width: 768px) 30vw, 160px"
-            />
-          </motion.div>
-        </div>
-
-        <div className="relative mt-3 text-center md:text-left">
-          <p className="pixel-text text-[8px] md:text-[9px]" style={{ color: item.accent }}>
-            {item.role}
-          </p>
-          <h3 className="mt-1.5 text-base font-semibold tracking-tight md:text-lg">
-            {item.name}
-          </h3>
-          <p className="mt-1.5 text-xs leading-relaxed text-[var(--fg-muted)] md:text-sm">
-            {item.blurb}
-          </p>
-        </div>
-
-        <div
-          className="pointer-events-none absolute inset-x-6 bottom-0 h-px origin-center scale-x-0 bg-gradient-to-r from-transparent via-current to-transparent opacity-80 transition duration-300 group-hover:scale-x-100"
-          style={{ color: item.accent }}
-        />
-      </motion.article>
-    </motion.li>
-  );
-}
-
-type CleaningItemsScrollProps = {
-  compact?: boolean;
-  className?: string;
-};
-
-export function CleaningItemsScroll({
-  compact = false,
-  className = "",
-}: CleaningItemsScrollProps) {
+export default function CleaningItemsScroll() {
   const ref = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
 
@@ -199,56 +19,62 @@ export function CleaningItemsScroll({
     offset: ["start end", "end start"],
   });
 
-  // stage glow intensity tied to scroll
-  const glowOpacity = useTransform(scrollYProgress, [0, 0.35, 0.65, 1], [0.2, 0.9, 0.9, 0.35]);
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.15, 0.3], [0, 0.4, 1]);
-  const titleY = useTransform(scrollYProgress, [0, 0.25], [24, 0]);
+  // Лёгкий параллакс (разный для каждого предмета)
+  const y1 = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [80, -80]);
+  const y2 = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [40, -120]);
+  const y3 = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [100, -40]);
+  const y4 = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [60, -90]);
+  const transforms = [y1, y2, y3, y4];
 
   return (
     <section
       ref={ref}
-      className={`relative overflow-hidden ${compact ? "py-10" : "section-pad py-20 md:py-28"} ${className}`}
-      aria-label="Пиксельный арсенал уборки"
+      className="relative flex h-[120vh] items-center justify-center overflow-hidden bg-[#0a0a0f]"
+      aria-label="Арсенал уборки"
     >
-      <motion.div
-        className="pointer-events-none absolute inset-0"
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f] via-[#111118] to-[#0a0a0f]" />
+      <div
+        className="pointer-events-none absolute inset-0 opacity-60"
         style={{
-          opacity: glowOpacity,
           background:
-            "radial-gradient(ellipse 60% 50% at 50% 40%, rgba(62,224,184,0.1), transparent 70%)",
+            "radial-gradient(ellipse 55% 45% at 50% 50%, rgba(62,224,184,0.08), transparent 70%)",
         }}
       />
 
-      <div className="relative mx-auto max-w-6xl">
-        {!compact && (
+      <div className="relative z-10 grid max-w-5xl grid-cols-2 gap-8 px-6 md:grid-cols-4 md:gap-12">
+        {items.map((item, i) => (
           <motion.div
-            style={{ opacity: titleOpacity, y: titleY }}
-            className="mb-12 text-center md:mb-16"
+            key={item.alt}
+            style={{ y: transforms[i] }}
+            initial={reduceMotion ? false : { opacity: 0, scale: 0.7, y: 60 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{
+              duration: 0.7,
+              delay: item.delay,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="flex flex-col items-center"
           >
-            <p className="pixel-text text-[10px] text-[var(--clean)]">LOOT · SCROLL</p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight md:text-4xl">
-              Предметы появляются вместе с квестом
-            </h2>
-            <p className="mx-auto mt-3 max-w-lg text-sm text-[var(--fg-muted)] md:text-base">
-              Scroll-driven reveal: stagger, parallax, float.
-            </p>
-          </motion.div>
-        )}
-
-        <ul className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-5">
-          {items.map((item, i) => (
-            <ScrollItem
-              key={item.name}
-              item={item}
-              index={i}
-              progress={scrollYProgress}
-              reduceMotion={reduceMotion}
+            <motion.img
+              src={item.src}
+              alt={item.alt}
+              className="pixel-art h-auto w-28 drop-shadow-[0_0_15px_rgba(100,180,255,0.25)] md:w-36"
+              whileHover={
+                reduceMotion
+                  ? undefined
+                  : { scale: 1.08, rotate: [-2, 2, 0] }
+              }
+              transition={{ type: "spring", stiffness: 300 }}
             />
-          ))}
-        </ul>
+            <span className="mt-3 font-mono text-sm tracking-wide text-zinc-400">
+              {item.alt}
+            </span>
+          </motion.div>
+        ))}
       </div>
     </section>
   );
 }
 
-export default CleaningItemsScroll;
+export { CleaningItemsScroll };
